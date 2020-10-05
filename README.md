@@ -1,1 +1,2 @@
 # ya-checker
+Praktikum checker
