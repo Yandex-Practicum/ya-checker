@@ -1,3 +1,4 @@
+import psutil
 from django.conf import settings
 from django.http import JsonResponse
 from django.views.generic import View
@@ -13,6 +14,8 @@ class CheckerView(View):
             'DEBUG': settings.DEBUG,
             'INSTALLED_APPS': settings.INSTALLED_APPS,
             'DATABASES': clear_database_info(settings.DATABASES),
-            'PACKAGE_LIST': get_package_list()
+            'PACKAGE_LIST': get_package_list(),
+            'GUNICORN': 'gunicorn' in (p.name() for p in psutil.process_iter()),
+            'NGINX': 'nginx' in (p.name() for p in psutil.process_iter())
         }
         return JsonResponse(result)
